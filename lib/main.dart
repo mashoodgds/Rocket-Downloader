@@ -2,7 +2,11 @@ import 'package:downloader/homepage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'constant/init_service.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  initServices();
   runApp(const MyApp());
 }
 

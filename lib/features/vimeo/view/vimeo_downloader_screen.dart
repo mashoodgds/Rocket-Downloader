@@ -1,16 +1,17 @@
 import 'package:downloader/controllers/screen_controller.dart';
-import 'package:downloader/features/instadownloader/controller/instadownloader_controller.dart';
+import 'package:downloader/features/vimeo/controller/vimeo_controller.dart';
 import 'package:downloader/view/home%20page/widgets/link_feild_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class InstaDownloaderScreen extends StatefulWidget {
-  const InstaDownloaderScreen({super.key});
+class VimeoDownloaderScreen extends StatefulWidget {
+  const VimeoDownloaderScreen({super.key});
+
   @override
-  State<InstaDownloaderScreen> createState() => _InstaDownloaderScreenState();
+  State<VimeoDownloaderScreen> createState() => _VimeoDownloaderScreenState();
 }
 
-class _InstaDownloaderScreenState extends State<InstaDownloaderScreen> {
+class _VimeoDownloaderScreenState extends State<VimeoDownloaderScreen> {
   final TextEditingController _linkController = TextEditingController();
 
   @override
@@ -25,22 +26,22 @@ class _InstaDownloaderScreenState extends State<InstaDownloaderScreen> {
           ElevatedButton(
               onPressed: () async {
                 Get.find<Screencontroller>().updateDownloadProgress(0);
-                await Get.find<InstaDownloaderController>().downloadFromLink(
-                    url: _linkController.text.trim(), extenstion: ".mp3");
+                await Get.find<VimeoDownlodController>().saveAndDownloadFile(
+                    url: _linkController.text.trim(), extenstion: ".mp4");
               },
               child: const Text("Download Audio")),
           ElevatedButton(
               onPressed: () async {
                 Get.find<Screencontroller>().updateDownloadProgress(0);
-
-                await Get.find<InstaDownloaderController>().downloadFromLink(
+                await Get.find<VimeoDownlodController>().saveAndDownloadFile(
                     url: _linkController.text.trim(), extenstion: ".mp4");
               },
               child: const Text("Download Video")),
           GetBuilder<Screencontroller>(
               init: Screencontroller(),
-              builder: (_controller) {
-                return Text("Progresss ${_controller.DownloadProgress}");
+              builder: (controller) {
+                return Text(
+                    "Progresss ${Get.find<Screencontroller>().DownloadProgress}");
               })
         ],
       ),
