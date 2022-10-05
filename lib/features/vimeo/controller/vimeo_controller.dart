@@ -5,20 +5,21 @@ import 'package:dio/dio.dart';
 import 'package:direct_link/direct_link.dart';
 import 'package:downloader/controllers/screen_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get/get.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:random_string/random_string.dart';
 
-class FacebookDownloaderController extends GetxService {
-  //add extenstion as .mp4 or .mp3 the file is without extenstion
-  Future<File?> saveAndDownloadFile(
-      {required String url,
-      required String extenstion,
-      required bool isHD}) async {
+class VimeoDownlodController extends GetxService {
+  Future<File?> saveAndDownloadFile({
+    required String url,
+    required String extenstion,
+  }) async {
     try {
       // get avilable option about video type
-      String? link =
-          await _getVideoHDLink(url: url, quality: isHD ? "hd" : "sd");
+      String? link = await _getVideoLink(
+        url: url,
+      );
       if (link == null) return null;
       String fileName = "facebook_video${randomAlpha(15)}$extenstion";
       var downloadedFile = await _downloadedFile(url: link, filename: fileName);
@@ -30,18 +31,11 @@ class FacebookDownloaderController extends GetxService {
     }
   }
 
-  Future<String?> _getVideoHDLink(
-      {required String url, required String quality}) async {
-    List<SiteModel>? urls = await DirectLink.check(url);
+  Future<String?> _getVideoLink({required String url}) async {
+    List<SiteModel>? vimeoUrls = await DirectLink.check(url);
     if (url == null) return null;
-
-    for (SiteModel siteData in urls!) {
-      if (siteData.quality == quality) {
-        return siteData.link;
-      }
-    }
-    if (urls.isNotEmpty) {
-      return urls[0].link;
+    if (vimeoUrls!.isNotEmpty) {
+      return vimeoUrls[0].link;
     }
     return null;
   }

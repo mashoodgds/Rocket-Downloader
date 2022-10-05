@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:random_string/random_string.dart';
 
-class InstaDownloaderController {
+class InstaDownloaderController extends GetxService {
   Future<File?> downloadFromLink(
       {required String url, required String extenstion}) async {
     try {

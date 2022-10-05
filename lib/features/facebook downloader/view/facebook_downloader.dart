@@ -1,4 +1,5 @@
 import 'package:downloader/controllers/screen_controller.dart';
+import 'package:downloader/features/facebook%20downloader/controller/facebok_downloader.dart';
 import 'package:downloader/features/instadownloader/controller/instadownloader_controller.dart';
 import 'package:downloader/view/home%20page/widgets/link_feild_widget.dart';
 import 'package:flutter/material.dart';
@@ -26,22 +27,38 @@ class _FacebookDownloaderScreenState extends State<FacebookDownloaderScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Get.find<Screencontroller>().updateDownloadProgress(0);
-                await InstaDownloaderController().downloadFromLink(
-                    url: _linkController.text.trim(), extenstion: ".mp3");
+                await Get.find<FacebookDownloaderController>()
+                    .saveAndDownloadFile(
+                        url: _linkController.text.trim(),
+                        extenstion: ".mp3",
+                        isHD: false);
               },
               child: const Text("Download Audio")),
           ElevatedButton(
               onPressed: () async {
                 Get.find<Screencontroller>().updateDownloadProgress(0);
-                await InstaDownloaderController().downloadFromLink(
-                    url: _linkController.text.trim(), extenstion: ".mp4");
+                await Get.find<FacebookDownloaderController>()
+                    .saveAndDownloadFile(
+                        url: _linkController.text.trim(),
+                        extenstion: ".mp4",
+                        isHD: false);
               },
-              child: const Text("Download Video")),
+              child: const Text("Download Video in SD")),
+          ElevatedButton(
+              onPressed: () async {
+                Get.find<Screencontroller>().updateDownloadProgress(0);
+                await Get.find<FacebookDownloaderController>()
+                    .saveAndDownloadFile(
+                        url: _linkController.text.trim(),
+                        extenstion: ".mp4",
+                        isHD: true);
+              },
+              child: const Text("Download Video HD")),
           GetBuilder<Screencontroller>(
               init: Screencontroller(),
-              builder: (_controller) {
-                return Text("Progresss ${_controller.DownloadProgress}");
+              builder: (controller) {
+                return Text(
+                    "Progresss ${Get.find<Screencontroller>().DownloadProgress}");
               })
         ],
       ),

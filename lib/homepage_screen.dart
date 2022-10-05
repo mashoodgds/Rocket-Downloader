@@ -1,9 +1,20 @@
+import 'package:downloader/controllers/screen_controller.dart';
+import 'package:downloader/features/facebook%20downloader/view/facebook_downloader.dart';
 import 'package:downloader/features/instadownloader/view/insta_downloader_screen.dart';
+import 'package:downloader/features/vimeo/view/vimeo_downloader_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePageScreens extends StatelessWidget {
+class HomePageScreens extends StatefulWidget {
   const HomePageScreens({super.key});
+
+  @override
+  State<HomePageScreens> createState() => _HomePageScreensState();
+}
+
+class _HomePageScreensState extends State<HomePageScreens> {
+  Screencontroller screencontroller =
+      Get.put(Screencontroller(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +37,9 @@ class HomePageScreens extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.to(const FacebookDownloaderScreen());
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -37,7 +50,9 @@ class HomePageScreens extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.to(const VimeoDownloaderScreen());
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
