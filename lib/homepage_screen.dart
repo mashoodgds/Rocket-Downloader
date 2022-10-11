@@ -1,7 +1,9 @@
 import 'package:downloader/controllers/screen_controller.dart';
 import 'package:downloader/features/facebook%20downloader/view/facebook_downloader.dart';
+import 'package:downloader/features/imdb%20downloader/view/imdb_downloader_screen.dart';
 import 'package:downloader/features/instadownloader/view/insta_downloader_screen.dart';
 import 'package:downloader/features/vimeo/view/vimeo_downloader_screen.dart';
+import 'package:downloader/features/youtube%20downloader/view/youtube_downloader_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -63,7 +65,9 @@ class _HomePageScreensState extends State<HomePageScreens> {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.to(() => const YoutubeDownloadeScreen());
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -74,7 +78,9 @@ class _HomePageScreensState extends State<HomePageScreens> {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.to(() => const IMDBDownloaderScreen());
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
