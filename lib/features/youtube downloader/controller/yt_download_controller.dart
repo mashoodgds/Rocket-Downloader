@@ -23,35 +23,28 @@ class YTDownloadController {
 
   Future<File?> saveVideoFromYT(String url) async {
     try {
-      var yt = YoutubeExplode();
       String filterUrl = url.replaceAll("?feature=share", "");
-
-      Video video = await yt.videos.get(url);
+      var yt = YoutubeExplode();
+      Video video = await yt.videos.get(filterUrl);
       StreamManifest manifest =
           await yt.videos.streamsClient.getManifest(video.id);
-
-      var file = _writeVideoInStorage(
-        yt,
-        manifest.muxed.withHighestBitrate(),
-      );
-
+      var file =
+          await _writeVideoInStorage(yt, manifest.muxed.withHighestBitrate());
       yt.close();
-
       return file;
     } catch (e) {
       return null;
     }
   }
 
-  _writeVideoInStorage(YoutubeExplode yt, VideoStreamInfo streamInfo) async {
+  Future<File?> _writeAudioInStorage(
+      YoutubeExplode yt, AudioOnlyStreamInfo streamInfo) async {
     try {
       String name = randomAlpha(15);
-      Stream<List<int>> stream = yt.videos.streamsClient.get(streamInfo);
-
+      var stream = yt.videos.streamsClient.get(streamInfo);
       var downloadsDirectoryPath = await DownloadsPath.downloadsDirectory();
-      File file = File("/${downloadsDirectoryPath!.path}/ YT_Video_$name.mp4");
+      var file = File("/${downloadsDirectoryPath!.path}/ YT_Audio_$name.mp3");
       var fileStream = file.openWrite();
-
       await stream.pipe(fileStream);
       await fileStream.flush();
       await fileStream.close();
@@ -61,22 +54,22 @@ class YTDownloadController {
       return null;
     }
   }
-}
 
-Future<File?> _writeAudioInStorage(
-    YoutubeExplode yt, AudioOnlyStreamInfo streamInfo) async {
-  try {
-    String name = randomAlpha(15);
-    var stream = yt.videos.streamsClient.get(streamInfo);
-    var downloadsDirectoryPath = await DownloadsPath.downloadsDirectory();
-    var file = File("/${downloadsDirectoryPath!.path}/ YT_Audio_$name.mp3");
-    var fileStream = file.openWrite();
-    await stream.pipe(fileStream);
-    await fileStream.flush();
-    await fileStream.close();
-    return file;
-  } catch (e) {
-    Fluttertoast.showToast(msg: "$e");
-    return null;
+  Future<File?> _writeVideoInStorage(
+      YoutubeExplode yt, MuxedStreamInfo streamInfo) async {
+    try {
+      String name = randomAlpha(15);
+      var stream = yt.videos.streamsClient.get(streamInfo);
+      var downloadsDirectoryPath = await DownloadsPath.downloadsDirectory();
+      var file = File("/${downloadsDirectoryPath!.path}/ YT_Video_$name.mp4");
+      var fileStream = file.openWrite();
+      await stream.pipe(fileStream);
+      await fileStream.flush();
+      await fileStream.close();
+      return file;
+    } catch (e) {
+      Fluttertoast.showToast(msg: "$e");
+      return null;
+    }
   }
 }

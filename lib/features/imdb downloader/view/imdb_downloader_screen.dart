@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:downloader/controllers/screen_controller.dart';
 import 'package:downloader/features/imdb%20downloader/controller/IMDB_controller.dart';
 import 'package:downloader/view/home%20page/widgets/link_feild_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class IMDBDownloaderScreen extends StatefulWidget {
@@ -26,22 +27,20 @@ class _IMDBDownloaderScreenState extends State<IMDBDownloaderScreen> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Get.find<Screencontroller>().updateDownloadProgress(0);
                 await IMDBDownlodController()
                     .saveAndDownloadFile(
-                        // video/vi1471530265==  seprate VideoID video from URL
-                        // "https://www.imdb.com/{videoID}/%3Fref_%3Dext_shr_ln?ref_=ext_shr_lnk",
-                        url:
-                            "https://www.imdb.com/video/vi1471530265/%3Fref_%3Dext_shr_ln?ref_=ext_shr_lnk",
-                        extenstion: ".mp3")
-                    .whenComplete(() => null);
+                        url: _linkController.text, extenstion: ".mp3")
+                    .whenComplete(() =>
+                        Get.find<Screencontroller>().updateDownloadProgress(0));
               },
               child: const Text("Download Audio")),
           ElevatedButton(
               onPressed: () async {
-                Get.find<Screencontroller>().updateDownloadProgress(0);
-                await IMDBDownlodController().saveAndDownloadFile(
-                    url: _linkController.text.trim(), extenstion: ".mp4");
+                await IMDBDownlodController()
+                    .saveAndDownloadFile(
+                        url: _linkController.text, extenstion: ".mp4")
+                    .whenComplete(() =>
+                        Get.find<Screencontroller>().updateDownloadProgress(0));
               },
               child: const Text("Download Video")),
           GetBuilder<Screencontroller>(
@@ -54,4 +53,20 @@ class _IMDBDownloaderScreenState extends State<IMDBDownloaderScreen> {
       ),
     );
   }
+}
+
+String convertUrlToDownloadble(String url) {
+  String downloadbleUrl = url;
+  List<String> urlElements = url.split('/');
+
+  for (int index = 0; index <= urlElements.length; index++) {
+    if (urlElements[index] == "video") {
+      String videoId = urlElements[index + 1];
+      downloadbleUrl =
+          "https://www.imdb.com/video/$videoId/%3Fref_%3Dext_shr_ln?ref_=ext_shr_lnk";
+      break;
+    }
+  }
+  inspect(downloadbleUrl);
+  return downloadbleUrl;
 }

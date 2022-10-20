@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:direct_link/direct_link.dart';
 import 'package:downloader/controllers/screen_controller.dart';
