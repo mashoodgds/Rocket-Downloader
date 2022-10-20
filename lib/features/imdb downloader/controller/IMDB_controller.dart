@@ -62,13 +62,17 @@ class IMDBDownlodController extends GetxService {
   }
 
   String _convertUrlToDownloadble(String url) {
-    if (url.contains("m.imdb.com")) {
-      String modifiedURl =
-          "${url.substring(0, 37)}/%3Fref_%3Dext_shr_ln?ref_=ext_shr_lnk";
-      return modifiedURl;
+    String downloadbleUrl = url;
+    List<String> urlElements = url.split('/');
+
+    for (int index = 0; index <= urlElements.length; index++) {
+      if (urlElements[index] == "video") {
+        String videoId = urlElements[index + 1];
+        downloadbleUrl =
+            "https://www.imdb.com/video/$videoId/%3Fref_%3Dext_shr_ln?ref_=ext_shr_lnk";
+        break;
+      }
     }
-    String modifiedURl =
-        "${url.substring(0, 39)}/%3Fref_%3Dext_shr_ln?ref_=ext_shr_lnk";
-    return modifiedURl;
+    return downloadbleUrl;
   }
 }

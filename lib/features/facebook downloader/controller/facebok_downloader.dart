@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:direct_link/direct_link.dart';
 import 'package:downloader/controllers/screen_controller.dart';
@@ -33,9 +32,9 @@ class FacebookDownloaderController extends GetxService {
   Future<String?> _getVideoHDLink(
       {required String url, required String quality}) async {
     List<SiteModel>? urls = await DirectLink.check(url);
-    if (url == null) return null;
+    if (urls == null) return null;
 
-    for (SiteModel siteData in urls!) {
+    for (SiteModel siteData in urls) {
       if (siteData.quality == quality) {
         return siteData.link;
       }
