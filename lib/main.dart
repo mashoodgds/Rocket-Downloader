@@ -1,6 +1,8 @@
 import 'package:downloader/homepage_screen.dart';
+import 'package:downloader/view/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'constant/app_theme.dart';
 import 'constant/init_service.dart';
 
 void main() {
@@ -14,10 +16,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme:
+            ThemeData().colorScheme.copyWith(primary: AppTheme.appPrimaryColor),
+        primaryColor: AppTheme.appPrimaryColor,
       ),
-      home: const HomePageScreens(),
+      home: const HomePageScreen(),
     );
   }
 }

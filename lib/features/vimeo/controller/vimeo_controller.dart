@@ -33,10 +33,10 @@ class VimeoDownlodController extends GetxService {
 
   Future<String?> _getVideoLink({required String url}) async {
     List<SiteModel>? vimeoUrls = await DirectLink.check(url);
-    if (url == null) return null;
     if (vimeoUrls!.isNotEmpty) {
       return vimeoUrls[0].link;
     }
+    log("Video URL Not Found");
     return null;
   }
 

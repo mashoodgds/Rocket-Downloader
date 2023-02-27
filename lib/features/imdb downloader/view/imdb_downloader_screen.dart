@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:downloader/controllers/screen_controller.dart';
+import 'package:downloader/custom%20app%20widgets/buttons/custom_button.dart';
+import 'package:downloader/custom%20app%20widgets/textfeilds.dart';
 import 'package:downloader/features/imdb%20downloader/controller/IMDB_controller.dart';
-import 'package:downloader/view/home%20page/widgets/link_feild_widget.dart';
+import 'package:downloader/view/progress_indicaor.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,33 +24,34 @@ class _IMDBDownloaderScreenState extends State<IMDBDownloaderScreen> {
       appBar: AppBar(),
       body: Column(
         children: [
-          LinkFeild(
-            linkController: _linkController,
+          CustomTextFeild2(
+            padding: EdgeInsets.symmetric(
+                horizontal: Get.width * 0.05, vertical: Get.height * 0.03),
+            textEditingController: _linkController,
+            title: 'Paste URl',
+            isLeftEmpty: false,
           ),
-          ElevatedButton(
-              onPressed: () async {
-                await IMDBDownlodController()
-                    .saveAndDownloadFile(
-                        url: _linkController.text, extenstion: ".mp3")
-                    .whenComplete(() =>
-                        Get.find<Screencontroller>().updateDownloadProgress(0));
-              },
-              child: const Text("Download Audio")),
-          ElevatedButton(
-              onPressed: () async {
-                await IMDBDownlodController()
-                    .saveAndDownloadFile(
-                        url: _linkController.text, extenstion: ".mp4")
-                    .whenComplete(() =>
-                        Get.find<Screencontroller>().updateDownloadProgress(0));
-              },
-              child: const Text("Download Video")),
-          GetBuilder<Screencontroller>(
-              init: Screencontroller(),
-              builder: (controller) {
-                return Text(
-                    "Progresss ${Get.find<Screencontroller>().DownloadProgress}");
-              })
+          CustomButton(
+            title: "Download Audio",
+            onClick: () async {
+              await IMDBDownlodController()
+                  .saveAndDownloadFile(
+                      url: _linkController.text, extenstion: ".mp3")
+                  .whenComplete(() =>
+                      Get.find<Screencontroller>().updateDownloadProgress(0));
+            },
+          ),
+          CustomButton(
+            title: "Download Video",
+            onClick: () async {
+              await IMDBDownlodController()
+                  .saveAndDownloadFile(
+                      url: _linkController.text, extenstion: ".mp4")
+                  .whenComplete(() =>
+                      Get.find<Screencontroller>().updateDownloadProgress(0));
+            },
+          ),
+          const MyProgressIndicator()
         ],
       ),
     );

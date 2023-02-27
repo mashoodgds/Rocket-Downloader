@@ -7,19 +7,12 @@ import 'package:downloader/features/youtube%20downloader/view/youtube_downloader
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePageScreens extends StatefulWidget {
+class HomePageScreens extends StatelessWidget {
   const HomePageScreens({super.key});
 
   @override
-  State<HomePageScreens> createState() => _HomePageScreensState();
-}
-
-class _HomePageScreensState extends State<HomePageScreens> {
-  Screencontroller screencontroller =
-      Get.put(Screencontroller(), permanent: true);
-
-  @override
   Widget build(BuildContext context) {
+    Get.put(Screencontroller(), permanent: true);
     return Scaffold(
       appBar: AppBar(),
       body: Column(children: [
