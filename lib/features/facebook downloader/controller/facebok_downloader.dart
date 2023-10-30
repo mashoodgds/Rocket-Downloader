@@ -38,7 +38,7 @@ class FacebookDownloaderController extends GetxService {
           await _getVideoHDLink(url: url, quality: isHD ? "hd" : "sd");
       if (link == null) return null;
       String fileName = "facebook_video${randomAlpha(15)}$extenstion";
-      var downloadedFile = await _downloadedFile(url: link, filename: fileName);
+      File downloadedFile = await _downloadedFile(url: link, filename: fileName);
       return downloadedFile;
     } catch (e) {
       Fluttertoast.showToast(msg: "$e");
