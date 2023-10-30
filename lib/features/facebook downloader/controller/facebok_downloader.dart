@@ -28,6 +28,24 @@ class FacebookDownloaderController extends GetxService {
       return null;
     }
   }
+  Future<File?> saveFileToGallary(
+      {required String url,
+      required String extenstion,
+      required bool isHD}) async {
+    try {
+      // get avilable option about video type
+      String? link =
+          await _getVideoHDLink(url: url, quality: isHD ? "hd" : "sd");
+      if (link == null) return null;
+      String fileName = "facebook_video${randomAlpha(15)}$extenstion";
+      var downloadedFile = await _downloadedFile(url: link, filename: fileName);
+      return downloadedFile;
+    } catch (e) {
+      Fluttertoast.showToast(msg: "$e");
+      inspect(e.toString());
+      return null;
+    }
+  }
 
   Future<String?> _getVideoHDLink(
       {required String url, required String quality}) async {
